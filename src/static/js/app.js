@@ -1,10 +1,11 @@
 function App() {
-    const { Container, Row, Col } = ReactBootstrap;
+    const {Container, Row, Col} = ReactBootstrap;
     return (
         <Container>
             <Row>
-                <Col md={{ offset: 3, span: 6 }}>
-                    <TodoListCard />
+                <Col md={{offset: 3, span: 6}}>
+                    <h1>Todo App</h1>
+                    <TodoListCard/>
                 </Col>
             </Row>
         </Container>
@@ -51,7 +52,7 @@ function TodoListCard() {
 
     return (
         <React.Fragment>
-            <AddItemForm onNewItem={onNewItem} />
+            <AddItemForm onNewItem={onNewItem}/>
             {items.length === 0 && (
                 <p className="text-center">No items yet! Add one above!</p>
             )}
@@ -67,8 +68,8 @@ function TodoListCard() {
     );
 }
 
-function AddItemForm({ onNewItem }) {
-    const { Form, InputGroup, Button } = ReactBootstrap;
+function AddItemForm({onNewItem}) {
+    const {Form, InputGroup, Button} = ReactBootstrap;
 
     const [newItem, setNewItem] = React.useState('');
     const [submitting, setSubmitting] = React.useState(false);
@@ -78,8 +79,8 @@ function AddItemForm({ onNewItem }) {
         setSubmitting(true);
         fetch('/items', {
             method: 'POST',
-            body: JSON.stringify({ name: newItem }),
-            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({name: newItem}),
+            headers: {'Content-Type': 'application/json'},
         })
             .then(r => r.json())
             .then(item => {
@@ -114,8 +115,8 @@ function AddItemForm({ onNewItem }) {
     );
 }
 
-function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
-    const { Container, Row, Col, Button } = ReactBootstrap;
+function ItemDisplay({item, onItemUpdate, onItemRemoval}) {
+    const {Container, Row, Col, Button} = ReactBootstrap;
 
     const toggleCompletion = () => {
         fetch(`/items/${item.id}`, {
@@ -124,14 +125,14 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
                 name: item.name,
                 completed: !item.completed,
             }),
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
         })
             .then(r => r.json())
             .then(onItemUpdate);
     };
 
     const removeItem = () => {
-        fetch(`/items/${item.id}`, { method: 'DELETE' }).then(() =>
+        fetch(`/items/${item.id}`, {method: 'DELETE'}).then(() =>
             onItemRemoval(item),
         );
     };
@@ -169,7 +170,7 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
                         onClick={removeItem}
                         aria-label="Remove Item"
                     >
-                        <i className="fa fa-trash text-danger" />
+                        <i className="fa fa-trash text-danger"/>
                     </Button>
                 </Col>
             </Row>
@@ -177,4 +178,4 @@ function ItemDisplay({ item, onItemUpdate, onItemRemoval }) {
     );
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App/>, document.getElementById('root'));
